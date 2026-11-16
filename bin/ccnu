@@ -1,0 +1,17 @@
+#!/bin/sh
+# Launcher that works from the skill directory without installing the package.
+# Resolves symlinks so `scripts/install.sh` can link it into ~/.local/bin.
+set -eu
+SOURCE=$0
+while [ -L "$SOURCE" ]; do
+  DIR=$(cd "$(dirname "$SOURCE")" && pwd)
+  SOURCE=$(readlink "$SOURCE")
+  case "$SOURCE" in
+    /*) ;;
+    *) SOURCE="$DIR/$SOURCE" ;;
+  esac
+done
+ROOT=$(cd "$(dirname "$SOURCE")/.." && pwd)
+PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONPATH
+exec "${PYTHON:-python3}" -m ccnu_reservation.cli "$@"

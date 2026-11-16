@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccnu-seat-reservation"
+version = "0.1.0"
+description = "CCNU library seat reservation client and agent skill"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = []
+
+[project.scripts]
+ccnu = "ccnu_reservation.cli:main"
+
+[tool.setuptools]
+packages = ["ccnu_reservation"]
