@@ -15,15 +15,15 @@ CCNU 图书馆座位预约的 Python 客户端，同时是一个可安装的 age
 仓库根目录就是 skill 目录，任选一种：
 
 ```bash
-# 支持 Agent Skills 的宿主（Claude Code、Codex、Cursor 等；仓库发布到 GitHub 后）
-npx skills add <github-owner>/ccnu-seat-reservation
+# 支持 Agent Skills 的宿主（Claude Code、Codex、Cursor 等）
+npx skills add chencheng8888/ccnu-seat-reservation
 
 # Skills Manager
-skills-manager-cli skills install https://github.com/<github-owner>/ccnu-seat-reservation.git
+skills-manager-cli skills install https://github.com/chencheng8888/ccnu-seat-reservation.git
 skills-manager-cli skills deploy ccnu-seat-reservation --agent claude_code
 
 # 手动
-git clone <repo-url> ~/.claude/skills/ccnu-seat-reservation
+git clone https://github.com/chencheng8888/ccnu-seat-reservation.git ~/.claude/skills/ccnu-seat-reservation
 ```
 
 想要一个全局 `ccnu` 命令：
