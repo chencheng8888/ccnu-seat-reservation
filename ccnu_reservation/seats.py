@@ -27,8 +27,13 @@ def seats_path(space_id, window):
     )
 
 
+UNAVAILABLE_STATUSES = {"IN_USE", "AWAY", "BOOKED"}
+
+
 def parse_free_seats(data, space_id):
-    # The upstream returns a map keyed by seat ID, an empty string, or null.
+    # The upstream returns every seat in the Space, keyed by seat ID, with a
+    # status; only free ones may be offered. Older responses omit ``status``
+    # and contain free seats only, so a missing status stays included.
     if not isinstance(data, dict):
         return []
     seats = []
@@ -37,6 +42,9 @@ def parse_free_seats(data, space_id):
             continue
         seat_id = item.get("id")
         if not seat_id:
+            continue
+        status = item.get("status")
+        if isinstance(status, str) and status.upper() in UNAVAILABLE_STATUSES:
             continue
         seats.append(
             FreeSeat(

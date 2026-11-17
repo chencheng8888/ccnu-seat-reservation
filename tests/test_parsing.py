@@ -64,6 +64,19 @@ class FreeSeatsParseTest(unittest.TestCase):
         self.assertEqual([seat.id for seat in seats], ["1", "2"])
         self.assertEqual(seats[0].space_id, "s1")
 
+    def test_skips_seats_that_are_not_free(self):
+        seats = parse_free_seats(
+            {
+                "1": {"id": "1", "label": "A01", "status": "FREE"},
+                "2": {"id": "2", "label": "A02", "status": "IN_USE"},
+                "3": {"id": "3", "label": "A03", "status": "AWAY"},
+                "4": {"id": "4", "label": "A04", "status": "BOOKED"},
+                "5": {"id": "5", "label": "A05"},
+            },
+            "s1",
+        )
+        self.assertEqual([seat.id for seat in seats], ["1", "5"])
+
     def test_treats_empty_shapes_as_no_seats(self):
         for data in (None, "", [], {}):
             self.assertEqual(parse_free_seats(data, "s1"), [])
